@@ -49,7 +49,7 @@ void start_up()
 			time1000ms = 0;
 		}
 
-		if (time2ms)
+		// if (time2ms)
 		{
 			imu_baro.imuDataGet( &stAngles, &stGyroRawData, &stAccelRawData, &stMagnRawData);
 			// imu_baro.pressSensorDataGet(&s32TemperatureVal, &s32PressureVal, &s32AltitudeVal);
@@ -60,7 +60,7 @@ void start_up()
 				debug[2] = stAngles.fYaw;
 			}
 
-			time2ms = 0;
+			// time2ms = 0;
 		}
 	}
 }

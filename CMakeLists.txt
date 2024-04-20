@@ -19,7 +19,7 @@ if(NOT CMAKE_BUILD_TYPE)
 endif()
 
 # Set the project name
-set(CMAKE_PROJECT_NAME AHRS_CF)
+set(CMAKE_PROJECT_NAME ahrs_stm32)
 
 # Include toolchain file
 include("cmake/gcc-arm-none-eabi.cmake")

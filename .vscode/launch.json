@@ -3,7 +3,7 @@
     "configurations": [
         {
             "cwd": "${workspaceRoot}",
-            "executable": ".\\build\\Debug\\AHRS_CF.elf",
+            "executable": ".\\build\\Debug\\ahrs_stm32.elf",
             "name": "ST-Link v2 with OpenOCD",
             "request": "launch",
             "type": "cortex-debug",
@@ -19,7 +19,7 @@
         },
         {
             "cwd": "${workspaceRoot}",
-            "executable": ".\\build\\Debug\\AHRS_CF.elf",
+            "executable": ".\\build\\Debug\\ahrs_stm32.elf",
             "name": "DAP-Link with OpenOCD",
             "request": "launch",
             "type": "cortex-debug",
