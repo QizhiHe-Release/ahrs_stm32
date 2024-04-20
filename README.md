@@ -11,3 +11,7 @@ toolchain:
 - compiler: arm-none-eabi
 - build: cmake, ninja
 - debug: cortex-debug vscode extension, openocd, stm32cube Monitor
+
+
+
+<img src=".\Documents\first_run_ok.png" alt="first_run_ok" style="zoom:100%;" />
