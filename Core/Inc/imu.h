@@ -65,7 +65,7 @@ extern "C"
         float magn[3];
     } IMU_DATA;
 
-    class ICM20948_BMP280
+    class ICM20948
     {
     public:
         // icm-20948
@@ -203,16 +203,22 @@ extern "C"
         constexpr static uint8_t BMP280_DIG_P9_LSB_REG = 0x9E;
         constexpr static uint8_t BMP280_DIG_P9_MSB_REG = 0x9F;
 
+        ICM20948();
+        ~ICM20948() = default;
+
         // icm20948
         void imuInit(IMU_EN_SENSOR_TYPE *penMotionSensorType, IMU_EN_SENSOR_TYPE *penPressureType);
         void imuDataGet(IMU_ST_ANGLES_DATA *pstAngles,
                         IMU_ST_SENSOR_DATA *pstGyroRawData,
-                        IMU_ST_SENSOR_DATA *pstAccelRawData,
+                        IMU_ST_SENSOR_DATA *pstAcceRawData,
                         IMU_ST_SENSOR_DATA *pstMagnRawData);
         // bmp280
         void pressSensorDataGet(int32_t *ps32Temperature, int32_t *ps32Pressure, int32_t *ps32Altitude);
 
     private:
+        // ahrs
+        uint8_t _attInitialized;
+
         // i2c
         uint8_t I2C_ReadOneByte(uint8_t DevAddr, uint8_t RegAddr);
         void I2C_WriteOneByte(uint8_t DevAddr, uint8_t RegAddr, uint8_t value);

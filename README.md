@@ -3,7 +3,7 @@
 hardware:
 - mcu: stm32l431rct6
 - peripherals: imu, baro, eeprom
-- stlink
+- debugger: stlink
 
 toolchain:
 - code generation: stm32cube MX

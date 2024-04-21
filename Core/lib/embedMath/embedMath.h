@@ -1,9 +1,6 @@
 #pragma once
 
 #ifdef __cplusplus
-extern "C"
-{
-#endif
 
 #include "inc/AxisAngle.hpp"
 #include "inc/Dcm.hpp"
@@ -24,8 +21,4 @@ extern "C"
 #include "inc/Vector3.hpp"
 #include "inc/Vector4.hpp"
 
-#include "inc/defines.h"
-
-#ifdef __cplusplus
-}
 #endif

@@ -12,7 +12,7 @@ float debug[10] = {0};
 
 void start_up()
 {
-	ICM20948_BMP280 imu;
+	ICM20948 imu;
 	IMU_EN_SENSOR_TYPE enMotionSensorType, enPressureType;
 	IMU_ST_ANGLES_DATA stAngles;
 	IMU_ST_SENSOR_DATA stGyroData;
