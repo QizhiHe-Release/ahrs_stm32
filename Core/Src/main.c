@@ -47,7 +47,7 @@
 /* Private variables ---------------------------------------------------------*/
 
 /* USER CODE BEGIN PV */
-uint8_t time2ms;
+uint8_t time5ms;
 uint8_t time1000ms;
 
 float yaw;
@@ -206,7 +206,7 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef* htim)
 
   if (htim -> Instance == TIM7)
   {
-    time2ms = 1;
+    time5ms = 1;
   }
 }
 /* USER CODE END 4 */

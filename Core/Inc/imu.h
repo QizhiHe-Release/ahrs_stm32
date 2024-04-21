@@ -64,7 +64,7 @@ extern "C"
         float accl[3];
         float magn[3];
     } IMU_DATA;
-    
+
     class ICM20948_BMP280
     {
     public:

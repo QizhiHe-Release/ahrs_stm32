@@ -5,22 +5,22 @@
 #include <string>
 using namespace std;
 
-extern uint8_t time1000ms, time2ms;
+extern uint8_t time1000ms, time5ms;
 
 // for stm32cube monitor debug
 float debug[10] = {0};
 
 void start_up()
 {
-	ICM20948_BMP280 imu_baro;
+	ICM20948_BMP280 imu;
 	IMU_EN_SENSOR_TYPE enMotionSensorType, enPressureType;
 	IMU_ST_ANGLES_DATA stAngles;
-	IMU_ST_SENSOR_DATA stGyroRawData;
-	IMU_ST_SENSOR_DATA stAccelRawData;
-	IMU_ST_SENSOR_DATA stMagnRawData;
+	IMU_ST_SENSOR_DATA stGyroData;
+	IMU_ST_SENSOR_DATA stAccelData;
+	IMU_ST_SENSOR_DATA stMagnData;
 	// int32_t s32PressureVal = 0, s32TemperatureVal = 0, s32AltitudeVal = 0;
 
-	imu_baro.imuInit(&enMotionSensorType, &enPressureType);
+	imu.imuInit(&enMotionSensorType, &enPressureType);
 	if (IMU_EN_SENSOR_TYPE_ICM20948 == enMotionSensorType)
 	{
 		printf("Motion sersor is ICM-20948\n");
@@ -49,18 +49,17 @@ void start_up()
 			time1000ms = 0;
 		}
 
-		// if (time2ms)
+		if (time5ms)
 		{
-			imu_baro.imuDataGet( &stAngles, &stGyroRawData, &stAccelRawData, &stMagnRawData);
-			// imu_baro.pressSensorDataGet(&s32TemperatureVal, &s32PressureVal, &s32AltitudeVal);
-
+			imu.imuDataGet(&stAngles, &stGyroData, &stAccelData, &stMagnData);
+			// imu.pressSensorDataGet(&s32TemperatureVal, &s32PressureVal, &s32AltitudeVal);
 			{
 				debug[0] = stAngles.fPitch;
 				debug[1] = stAngles.fRoll;
 				debug[2] = stAngles.fYaw;
 			}
 
-			// time2ms = 0;
+			time5ms = 0;
 		}
 	}
 }

@@ -1,12 +1,14 @@
 #include "imu.h"
 #include "main.h"
 #include "i2c.h"
-
 #include <cmath>
 
 #define MAG_DATA_LEN 6
-#define Kp 4.50f // proportional gain governs rate of convergence to accelerometer/magnetometer
-#define Ki 1.00f // integral gain governs rate of convergence of gyroscope biases
+// #define Kp 4.50f // proportional gain governs rate of convergence to accelerometer/magnetometer
+// #define Ki 1.00f // integral gain governs rate of convergence of gyroscope biases
+
+#define Kp 0.00f // proportional gain governs rate of convergence to accelerometer/magnetometer
+#define Ki 0.00f // integral gain governs rate of convergence of gyroscope biases
 
 #define rad2deg (180.0f / M_PI)
 #define deg2rad (M_PI / 180.0f)
@@ -68,45 +70,40 @@ void ICM20948_BMP280::imuInit(IMU_EN_SENSOR_TYPE *penMotionSensorType, IMU_EN_SE
 }
 
 void ICM20948_BMP280::imuDataGet(IMU_ST_ANGLES_DATA *pstAngles,
-                                 IMU_ST_SENSOR_DATA *pstGyroRawData,
-                                 IMU_ST_SENSOR_DATA *pstAccelRawData,
-                                 IMU_ST_SENSOR_DATA *pstMagnRawData)
+                                 IMU_ST_SENSOR_DATA *pstGyroData,
+                                 IMU_ST_SENSOR_DATA *pstAccelData,
+                                 IMU_ST_SENSOR_DATA *pstMagnData)
 {
-    float MotionVal[9];
     int16_t s16Gyro[3], s16Accel[3], s16Magn[3];
 
     icm20948AccelRead(&s16Accel[0], &s16Accel[1], &s16Accel[2]);
     icm20948GyroRead(&s16Gyro[0], &s16Gyro[1], &s16Gyro[2]);
     icm20948MagRead(&s16Magn[0], &s16Magn[1], &s16Magn[2]);
 
-    MotionVal[0] = s16Gyro[0] / 32.8;
-    MotionVal[1] = s16Gyro[1] / 32.8;
-    MotionVal[2] = s16Gyro[2] / 32.8;
-    MotionVal[3] = s16Accel[0];
-    MotionVal[4] = s16Accel[1];
-    MotionVal[5] = s16Accel[2];
-    MotionVal[6] = s16Magn[0];
-    MotionVal[7] = s16Magn[1];
-    MotionVal[8] = s16Magn[2];
-    imuAHRSupdate((float)MotionVal[0] * 0.0175, (float)MotionVal[1] * 0.0175, (float)MotionVal[2] * 0.0175,
-                  (float)MotionVal[3], (float)MotionVal[4], (float)MotionVal[5],
-                  (float)MotionVal[6], (float)MotionVal[7], (float)MotionVal[8]);
+    // s16Gyro / x -> (dps)
+    // 250dps:131   500dps:65.5  1000dps:32.8  2000dps:16.4
+    pstGyroData->s16Y =  s16Gyro[0] / 32.8;
+    pstGyroData->s16X = -s16Gyro[1] / 32.8;
+    pstGyroData->s16Z =  s16Gyro[2] / 32.8;
+
+    // s16Accel / x -> (g) 
+    // 2g:16384   4g:8192   8g:4096   16g:2048
+    pstAccelData->s16Y =  s16Accel[0] / 16384.0;
+    pstAccelData->s16X = -s16Accel[1] / 16384.0;
+    pstAccelData->s16Z =  s16Accel[2] / 16384.0;
+
+    // s16Magn * 0.15 -> (uT)
+    pstMagnData->s16Y =  s16Magn[0] * 0.15;
+    pstMagnData->s16X = -s16Magn[1] * 0.15;
+    pstMagnData->s16Z =  s16Magn[2] * 0.15;
+
+    imuAHRSupdate(pstGyroData->s16X * deg2rad, pstGyroData->s16Y * deg2rad, pstGyroData->s16Z * deg2rad,
+                  pstAccelData->s16X, pstAccelData->s16Y, pstAccelData->s16Z,
+                  pstMagnData->s16X, pstMagnData->s16Y, pstMagnData->s16Z);
 
     pstAngles->fPitch = asin(-2 * q1 * q3 + 2 * q0 * q2) * 57.3;                                // pitch
     pstAngles->fRoll = atan2(2 * q2 * q3 + 2 * q0 * q1, -2 * q1 * q1 - 2 * q2 * q2 + 1) * 57.3; // roll
-    pstAngles->fYaw = atan2(-2 * q1 * q2 - 2 * q0 * q3, 2 * q2 * q2 + 2 * q3 * q3 - 1) * 57.3;
-
-    pstGyroRawData->s16X = s16Gyro[0];
-    pstGyroRawData->s16Y = s16Gyro[1];
-    pstGyroRawData->s16Z = s16Gyro[2];
-
-    pstAccelRawData->s16X = s16Accel[0];
-    pstAccelRawData->s16Y = s16Accel[1];
-    pstAccelRawData->s16Z = s16Accel[2];
-
-    pstMagnRawData->s16X = s16Magn[0];
-    pstMagnRawData->s16Y = s16Magn[1];
-    pstMagnRawData->s16Z = s16Magn[2];
+    pstAngles->fYaw = atan2(-2 * q1 * q2 - 2 * q0 * q3, 2 * q2 * q2 + 2 * q3 * q3 - 1) * 57.3;  // yaw
 
     return;
 }
@@ -153,17 +150,19 @@ void ICM20948_BMP280::icm20948init(void)
 
     /* user bank 2 register */
     I2C_WriteOneByte(I2C_ADD_ICM20948, REG_ADD_REG_BANK_SEL, REG_VAL_REG_BANK_2);
-    I2C_WriteOneByte(I2C_ADD_ICM20948, REG_ADD_GYRO_SMPLRT_DIV, 0x07);
+    // 1.1 kHz/(1+GYRO_SMPLRT_DIV[7:0]) = 220Hz
+    I2C_WriteOneByte(I2C_ADD_ICM20948, REG_ADD_GYRO_SMPLRT_DIV, 0x04);
     I2C_WriteOneByte(I2C_ADD_ICM20948, REG_ADD_GYRO_CONFIG_1,
                      REG_VAL_BIT_GYRO_DLPCFG_6 | REG_VAL_BIT_GYRO_FS_1000DPS | REG_VAL_BIT_GYRO_DLPF);
-    I2C_WriteOneByte(I2C_ADD_ICM20948, REG_ADD_ACCEL_SMPLRT_DIV_2, 0x07);
+    // 1.125 kHz/(1+ACCEL_SMPLRT_DIV[11:0]) = 225Hz
+    I2C_WriteOneByte(I2C_ADD_ICM20948, REG_ADD_ACCEL_SMPLRT_DIV_2, 0x04);
     I2C_WriteOneByte(I2C_ADD_ICM20948, REG_ADD_ACCEL_CONFIG,
                      REG_VAL_BIT_ACCEL_DLPCFG_6 | REG_VAL_BIT_ACCEL_FS_2g | REG_VAL_BIT_ACCEL_DLPF);
 
     /* user bank 0 register */
     I2C_WriteOneByte(I2C_ADD_ICM20948, REG_ADD_REG_BANK_SEL, REG_VAL_REG_BANK_0);
-
     HAL_Delay(100);
+
     /* offset */
     icm20948GyroOffset();
     icm20948MagCheck();
@@ -225,13 +224,8 @@ void ICM20948_BMP280::icm20948GyroRead(int16_t *ps16X, int16_t *ps16Y, int16_t *
     {
         icm20948CalAvgValue(&sstAvgBuf[i].u8Index, sstAvgBuf[i].s16AvgBuffer, s16Buf[i], s32OutBuf + i);
     }
-    // *ps16X = s32OutBuf[0] - gstGyroOffset.s16X;
-    // *ps16Y = s32OutBuf[1] - gstGyroOffset.s16Y;
-    // *ps16Z = s32OutBuf[2] - gstGyroOffset.s16Z;
-
-    // modified by qizhi he 20240411
-    *ps16X = -(s32OutBuf[1] - gstGyroOffset.s16X);
-    *ps16Y = s32OutBuf[0] - gstGyroOffset.s16Y;
+    *ps16X = s32OutBuf[0] - gstGyroOffset.s16X;
+    *ps16Y = s32OutBuf[1] - gstGyroOffset.s16Y;
     *ps16Z = s32OutBuf[2] - gstGyroOffset.s16Z;
 
     return;
@@ -261,13 +255,8 @@ void ICM20948_BMP280::icm20948AccelRead(int16_t *ps16X, int16_t *ps16Y, int16_t 
     {
         icm20948CalAvgValue(&sstAvgBuf[i].u8Index, sstAvgBuf[i].s16AvgBuffer, s16Buf[i], s32OutBuf + i);
     }
-    // *ps16X = s32OutBuf[0];
-    // *ps16Y = s32OutBuf[1];
-    // *ps16Z = s32OutBuf[2];
-
-    // modified by qizhi he 20240411
-    *ps16X = -s32OutBuf[1];
-    *ps16Y = s32OutBuf[0];
+    *ps16X = s32OutBuf[0];
+    *ps16Y = s32OutBuf[1];
     *ps16Z = s32OutBuf[2];
 
     return;
@@ -309,13 +298,8 @@ void ICM20948_BMP280::icm20948MagRead(int16_t *ps16X, int16_t *ps16Y, int16_t *p
         icm20948CalAvgValue(&sstAvgBuf[i].u8Index, sstAvgBuf[i].s16AvgBuffer, s16Buf[i], s32OutBuf + i);
     }
 
-    // *ps16X =  s32OutBuf[0];
-    // *ps16Y = -s32OutBuf[1];
-    // *ps16Z = -s32OutBuf[2];
-
-    // modified by qizhi he 20240411
-    *ps16X = s32OutBuf[1];
-    *ps16Y = s32OutBuf[0];
+    *ps16X =  s32OutBuf[0];
+    *ps16Y = -s32OutBuf[1];
     *ps16Z = -s32OutBuf[2];
 
     return;
@@ -393,7 +377,7 @@ void ICM20948_BMP280::icm20948GyroOffset(void)
         s32TempGx += s16Gx;
         s32TempGy += s16Gy;
         s32TempGz += s16Gz;
-        HAL_Delay(10);
+        HAL_Delay(30);
     }
     gstGyroOffset.s16X = s32TempGx >> 5;
     gstGyroOffset.s16Y = s32TempGy >> 5;
