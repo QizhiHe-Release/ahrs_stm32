@@ -20,6 +20,22 @@
         {
             "cwd": "${workspaceRoot}",
             "executable": ".\\build\\Debug\\ahrs_stm32.elf",
+            "name": "ST-Link v2.1 with OpenOCD",
+            "request": "launch",
+            "type": "cortex-debug",
+            "servertype": "openocd",
+            "interface": "swd",
+            "configFiles": [
+                "C:\\OpenOCD\\share\\openocd\\scripts\\interface\\stlink-v2-1.cfg",
+                "C:\\OpenOCD\\share\\openocd\\scripts\\target\\stm32l4x.cfg"
+            ],
+            "searchDir": [],
+            "runToEntryPoint": "main",
+            "showDevDebugOutput": "none",
+        },
+        {
+            "cwd": "${workspaceRoot}",
+            "executable": ".\\build\\Debug\\ahrs_stm32.elf",
             "name": "DAP-Link with OpenOCD",
             "request": "launch",
             "type": "cortex-debug",

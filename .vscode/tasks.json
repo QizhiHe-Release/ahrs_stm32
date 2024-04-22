@@ -19,6 +19,22 @@
         },
         {
             "type": "shell",
+            "label": "STLink-V2.1 Download",
+            "command": "openocd",
+            "args": [
+                "-f",
+                "C:\\OpenOCD\\share\\openocd\\scripts\\interface\\stlink-v2-1.cfg",
+                "-f",
+                "C:\\OpenOCD\\share\\openocd\\scripts\\target\\stm32l4x.cfg",
+                "-c",
+                "init",
+                "-c",
+                "program ./build/Debug/ahrs_stm32.elf verify reset exit"
+            ],
+            "problemMatcher":[]
+        },
+        {
+            "type": "shell",
             "label": "DAP-Link Download",
             "command": "openocd",
             "args": [
