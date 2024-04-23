@@ -1,7 +1,7 @@
 #include "start.h"
 #include "main.h"
 #include "usart.h"
-#include "imu.h"
+#include "icm20948.h"
 #include <string>
 using namespace std;
 
@@ -12,31 +12,32 @@ float debug[10] = {0};
 
 void start_up()
 {
-	ICM20948 imu;
-	IMU_EN_SENSOR_TYPE enMotionSensorType, enPressureType;
-	IMU_ST_ANGLES_DATA stAngles;
-	IMU_ST_SENSOR_DATA stGyroData;
-	IMU_ST_SENSOR_DATA stAccelData;
-	IMU_ST_SENSOR_DATA stMagnData;
-	// int32_t s32PressureVal = 0, s32TemperatureVal = 0, s32AltitudeVal = 0;
+	ICM20948_Init();
+	// ICM20948 imu;
+	// IMU_EN_SENSOR_TYPE enMotionSensorType, enPressureType;
+	// IMU_ST_ANGLES_DATA stAngles;
+	// IMU_ST_SENSOR_DATA stGyroData;
+	// IMU_ST_SENSOR_DATA stAccelData;
+	// IMU_ST_SENSOR_DATA stMagnData;
+	// // int32_t s32PressureVal = 0, s32TemperatureVal = 0, s32AltitudeVal = 0;
 
-	imu.imuInit(&enMotionSensorType, &enPressureType);
-	if (IMU_EN_SENSOR_TYPE_ICM20948 == enMotionSensorType)
-	{
-		printf("Motion sersor is ICM-20948\n");
-	}
-	else
-	{
-		printf("Motion sersor NULL\n");
-	}
-	if (IMU_EN_SENSOR_TYPE_BMP280 == enPressureType)
-	{
-		printf("Pressure sersor is BMP280\n");
-	}
-	else
-	{
-		printf("Pressure sersor NULL\n");
-	}
+	// imu.imuInit(&enMotionSensorType, &enPressureType);
+	// if (IMU_EN_SENSOR_TYPE_ICM20948 == enMotionSensorType)
+	// {
+	// 	printf("Motion sersor is ICM-20948\n");
+	// }
+	// else
+	// {
+	// 	printf("Motion sersor NULL\n");
+	// }
+	// if (IMU_EN_SENSOR_TYPE_BMP280 == enPressureType)
+	// {
+	// 	printf("Pressure sersor is BMP280\n");
+	// }
+	// else
+	// {
+	// 	printf("Pressure sersor NULL\n");
+	// }
 
 	while (1)
 	{
@@ -49,17 +50,17 @@ void start_up()
 			time1000ms = 0;
 		}
 
-		if (time5ms)
-		{
-			imu.imuDataGet(&stAngles, &stGyroData, &stAccelData, &stMagnData);
-			// imu.pressSensorDataGet(&s32TemperatureVal, &s32PressureVal, &s32AltitudeVal);
-			{
-				debug[0] = stAngles.fPitch;
-				debug[1] = stAngles.fRoll;
-				debug[2] = stAngles.fYaw;
-			}
+		// if (time5ms)
+		// {
+		// 	imu.imuDataGet(&stAngles, &stGyroData, &stAccelData, &stMagnData);
+		// 	// imu.pressSensorDataGet(&s32TemperatureVal, &s32PressureVal, &s32AltitudeVal);
+		// 	{
+		// 		debug[0] = stAngles.fPitch;
+		// 		debug[1] = stAngles.fRoll;
+		// 		debug[2] = stAngles.fYaw;
+		// 	}
 
-			time5ms = 0;
-		}
+		// 	time5ms = 0;
+		// }
 	}
 }

@@ -14,7 +14,7 @@
                 "C:\\OpenOCD\\share\\openocd\\scripts\\target\\stm32l4x.cfg"
             ],
             "searchDir": [],
-            "runToEntryPoint": "main",
+            // "runToEntryPoint": "main",
             "showDevDebugOutput": "none",
         },
         {
@@ -30,7 +30,7 @@
                 "C:\\OpenOCD\\share\\openocd\\scripts\\target\\stm32l4x.cfg"
             ],
             "searchDir": [],
-            "runToEntryPoint": "main",
+            // "runToEntryPoint": "main",
             "showDevDebugOutput": "none",
         },
         {
@@ -46,7 +46,7 @@
                 "C:\\OpenOCD\\share\\openocd\\scripts\\target\\stm32l4x.cfg"
             ],
             "searchDir": [],
-            "runToEntryPoint": "main",
+            // "runToEntryPoint": "main",
             "showDevDebugOutput": "none",
         }
     ]

@@ -25,10 +25,11 @@ target_sources(stm32cubemx INTERFACE
     ../../Core/Src/main.c
     ../../Core/Src/start.cpp
     ../../Core/Src/gpio.c
+    ../../Core/Src/dma.c
     ../../Core/Src/i2c.c
     ../../Core/Src/tim.c
     ../../Core/Src/usart.c
-    ../../Core/Src/imu.cpp
+    ../../Core/Src/icm20948.c
     ../../Core/Src/stm32l4xx_it.c
     ../../Core/Src/stm32l4xx_hal_msp.c
     ../../Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_i2c.c
