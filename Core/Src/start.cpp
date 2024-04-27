@@ -8,7 +8,17 @@ using namespace std;
 extern uint8_t time1000ms, time5ms;
 
 // for stm32cube monitor debug
-float debug[10] = {0};
+float debug[20] = {0};
+
+extern int16_t Accel_X_RAW;
+extern int16_t Accel_Y_RAW;
+extern int16_t Accel_Z_RAW;
+
+extern int16_t Gyro_X_RAW;
+extern int16_t Gyro_Y_RAW;
+extern int16_t Gyro_Z_RAW;
+
+extern float Ax, Ay, Az, Gx, Gy, Gz;
 
 void start_up()
 {
@@ -50,17 +60,18 @@ void start_up()
 			time1000ms = 0;
 		}
 
-		// if (time5ms)
-		// {
-		// 	imu.imuDataGet(&stAngles, &stGyroData, &stAccelData, &stMagnData);
-		// 	// imu.pressSensorDataGet(&s32TemperatureVal, &s32PressureVal, &s32AltitudeVal);
-		// 	{
-		// 		debug[0] = stAngles.fPitch;
-		// 		debug[1] = stAngles.fRoll;
-		// 		debug[2] = stAngles.fYaw;
-		// 	}
+		if (time5ms)
+		{
+			ICM20948_Read_Accel();
+			ICM20948_Read_Gyro();
+			{
+				debug[0] = Accel_Z_RAW;
+				debug[1] = Gyro_Z_RAW;
+				debug[2] = Az;
+				debug[3] = Gz;
+			}
 
-		// 	time5ms = 0;
-		// }
+			time5ms = 0;
+		}
 	}
 }
