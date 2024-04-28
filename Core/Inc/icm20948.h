@@ -30,8 +30,8 @@ extern "C" {
 void ICM20948_Init(void);
 // void ICM20948_Read_Accel(void);
 // void ICM20948_Read_Gyro(void);
-// void ICM20948_Read_Accel_DMA(void);
-// void ICM20948_Read_Gyro_DMA(void);
+void ICM20948_Read_Accel_DMA(void);
+void ICM20948_Read_Gyro_DMA(void);
 
 #ifdef __cplusplus
 }
