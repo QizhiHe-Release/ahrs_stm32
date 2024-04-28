@@ -20,6 +20,10 @@ extern int16_t Gyro_X_RAW;
 extern int16_t Gyro_Y_RAW;
 extern int16_t Gyro_Z_RAW;
 
+extern int16_t Magn_X_RAW;
+extern int16_t Magn_Y_RAW;
+extern int16_t Magn_Z_RAW;
+
 extern float Ax, Ay, Az, Gx, Gy, Gz;
 
 void start_up()
@@ -43,21 +47,21 @@ void start_up()
 			ICM20948_Read_Accel();
 
 			{	
-				debug[0] = Accel_X_RAW;
-				debug[1] = Accel_Y_RAW;
-				debug[2] = Accel_Z_RAW;
+				debug[0] = Magn_X_RAW;
+				debug[1] = Magn_Y_RAW;
+				debug[2] = Magn_Z_RAW;
 
-				debug[3] = Gyro_X_RAW;
-				debug[4] = Gyro_Y_RAW;
-				debug[5] = Gyro_Z_RAW;
+				// debug[3] = Gyro_X_RAW;
+				// debug[4] = Gyro_Y_RAW;
+				// debug[5] = Gyro_Z_RAW;
 
-				debug[6] = Ax;
-				debug[7] = Ay;
-				debug[8] = Az;
+				// debug[6] = Ax;
+				// debug[7] = Ay;
+				// debug[8] = Az;
 
-				debug[9] = Gx;
-				debug[10] = Gy;
-				debug[11] = Gz;
+				// debug[9] = Gx;
+				// debug[10] = Gy;
+				// debug[11] = Gz;
 			}
 
 			time5ms = 0;

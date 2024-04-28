@@ -9,7 +9,7 @@ extern "C" {
 #define I2C_TRANSMIT_MODE           (2)
 
 // ADD_XXX: address     CMD_XXX: command
-#define ADD_I2C_ADDRESS             0xD0
+#define ADD_I2C_ICM20948            0xD0
 #define ADD_REG_BANK_SEL            0x7F
 #define CMD_REG_BANK_0              0x00
 #define CMD_REG_BANK_1              0x10
@@ -29,6 +29,12 @@ extern "C" {
 // Bank 1
 // Bank 2
 // Bank 3
+
+#define ADD_I2C_SLV0_ADDR_WRITE     0x0C
+#define ADD_I2C_SLV0_ADDR_READ      0x8C
+#define ADD_CNTL2                   0x31
+#define ADD_HXL                     0x11
+
 
 void ICM20948_Init(void);
 void ICM20948_Read_Accel(void);
