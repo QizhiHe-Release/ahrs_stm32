@@ -5,6 +5,9 @@
 extern "C" {
 #endif
 
+// 0: Polling  1: Interrupt  2: DMA
+#define I2C_TRANSMIT_MODE           (2)
+
 // ADD_XXX: address     CMD_XXX: command
 #define ADD_I2C_ADDRESS             0xD0
 #define ADD_REG_BANK_SEL            0x7F
@@ -28,10 +31,10 @@ extern "C" {
 // Bank 3
 
 void ICM20948_Init(void);
-// void ICM20948_Read_Accel(void);
-// void ICM20948_Read_Gyro(void);
-void ICM20948_Read_Accel_DMA(void);
-void ICM20948_Read_Gyro_DMA(void);
+void ICM20948_Read_Accel(void);
+void ICM20948_Read_Gyro(void);
+void ICM20948_Read_Accel_Polling(void);
+void ICM20948_Read_Gyro_Polling(void);
 
 #ifdef __cplusplus
 }
