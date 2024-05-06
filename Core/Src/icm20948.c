@@ -62,7 +62,7 @@ void ICM20948_Init(void)
 			Data = CMD_REG_BANK_0;
 			HAL_I2C_Mem_Write(&hi2c3, ADD_I2C_ICM20948, ADD_REG_BANK_SEL, 1, &Data, 1, HAL_MAX_DELAY);
 			HAL_Delay(10);
-			Data = 0x08;
+			Data = 0x04;
 			HAL_I2C_Mem_Write(&hi2c3, ADD_I2C_SLV0_ADDR_WRITE, ADD_CNTL2, 1, &Data, 1, HAL_MAX_DELAY);
 			HAL_Delay(10);
 
@@ -132,7 +132,7 @@ void ICM20948_Read_Magn_Polling(void)
 {
 	HAL_I2C_Mem_Read(&hi2c3, ADD_I2C_SLV0_ADDR_READ, ADD_HXL, I2C_MEMADD_SIZE_8BIT, magDataBuffer, 6, HAL_MAX_DELAY);
 
-    Magn_X_RAW = (int16_t)((magDataBuffer[1] << 8) | magDataBuffer[0]);
-    Magn_Y_RAW = (int16_t)((magDataBuffer[3] << 8) | magDataBuffer[2]);
-    Magn_Z_RAW = (int16_t)((magDataBuffer[5] << 8) | magDataBuffer[4]);
+    Magn_X_RAW = (magDataBuffer[1] << 8) | magDataBuffer[0];
+    Magn_Y_RAW = (magDataBuffer[3] << 8) | magDataBuffer[2];
+    Magn_Z_RAW = (magDataBuffer[5] << 8) | magDataBuffer[4];
 }

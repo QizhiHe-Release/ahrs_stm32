@@ -1,6 +1,6 @@
 {
-    "cortex-debug.armToolchainPath.windows": "C:\\Arm GNU Toolchain arm-none-eabi\\13.2 Rel1\\bin",
-    "cortex-debug.openocdPath.windows": "C:\\OpenOCD\\bin\\openocd.exe",
+    "cortex-debug.armToolchainPath.windows": "D:\\Program Files\\Arm_GNU_Toolchain\\13.2 Rel1\\bin",
+    "cortex-debug.openocdPath.windows": "D:\\Program Files\\OpenOCD\\bin\\openocd.exe",
     "cmake.options.statusBarVisibility": "hidden",
     "files.associations": {
         "array": "cpp",

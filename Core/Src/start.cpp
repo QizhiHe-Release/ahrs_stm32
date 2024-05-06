@@ -45,23 +45,32 @@ void start_up()
 		{
 			ICM20948_Read_Gyro();
 			ICM20948_Read_Accel();
+			// ICM20948_Read_Magn_Polling();
 
 			{	
 				debug[0] = Magn_X_RAW;
 				debug[1] = Magn_Y_RAW;
 				debug[2] = Magn_Z_RAW;
 
-				// debug[3] = Gyro_X_RAW;
-				// debug[4] = Gyro_Y_RAW;
-				// debug[5] = Gyro_Z_RAW;
+				debug[3] = Gyro_X_RAW;
+				debug[4] = Gyro_Y_RAW;
+				debug[5] = Gyro_Z_RAW;
 
-				// debug[6] = Ax;
-				// debug[7] = Ay;
-				// debug[8] = Az;
+				// debug[6] = Accel_X_RAW;
+				// debug[7] = Accel_Y_RAW;
+				// debug[8] = Accel_Z_RAW;
 
 				// debug[9] = Gx;
 				// debug[10] = Gy;
 				// debug[11] = Gz;
+
+				// debug[12] = Ax;
+				// debug[13] = Ay;
+				// debug[14] = Az;
+
+				// debug[15] = Gx;
+				// debug[16] = Gy;
+				// debug[17] = Gz;
 			}
 
 			time5ms = 0;

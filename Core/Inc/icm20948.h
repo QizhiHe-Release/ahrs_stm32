@@ -41,6 +41,8 @@ void ICM20948_Read_Accel(void);
 void ICM20948_Read_Gyro(void);
 void ICM20948_Read_Accel_Polling(void);
 void ICM20948_Read_Gyro_Polling(void);
+void ICM20948_Read_Magn_Polling(void);
+
 
 #ifdef __cplusplus
 }

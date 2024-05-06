@@ -10,8 +10,8 @@
             "servertype": "openocd",
             "interface": "swd",
             "configFiles": [
-                "C:\\OpenOCD\\share\\openocd\\scripts\\interface\\stlink-v2.cfg",
-                "C:\\OpenOCD\\share\\openocd\\scripts\\target\\stm32l4x.cfg"
+                "D:\\Program Files\\OpenOCD\\share\\openocd\\scripts\\interface\\stlink-v2.cfg",
+                "D:\\Program Files\\OpenOCD\\share\\openocd\\scripts\\target\\stm32l4x.cfg"
             ],
             "searchDir": [],
             "runToEntryPoint": "main",
@@ -26,8 +26,8 @@
             "servertype": "openocd",
             "interface": "swd",
             "configFiles": [
-                "C:\\OpenOCD\\share\\openocd\\scripts\\interface\\stlink-v2-1.cfg",
-                "C:\\OpenOCD\\share\\openocd\\scripts\\target\\stm32l4x.cfg"
+                "D:\\Program Files\\OpenOCD\\share\\openocd\\scripts\\interface\\stlink-v2-1.cfg",
+                "D:\\Program Files\\OpenOCD\\share\\openocd\\scripts\\target\\stm32l4x.cfg"
             ],
             "searchDir": [],
             "runToEntryPoint": "main",
@@ -42,8 +42,8 @@
             "servertype": "openocd",
             "interface": "swd",
             "configFiles": [
-                "C:\\OpenOCD\\share\\openocd\\scripts\\interface\\cmsis-dap.cfg",
-                "C:\\OpenOCD\\share\\openocd\\scripts\\target\\stm32l4x.cfg"
+                "D:\\Program Files\\OpenOCD\\share\\openocd\\scripts\\interface\\cmsis-dap.cfg",
+                "D:\\Program Files\\OpenOCD\\share\\openocd\\scripts\\target\\stm32l4x.cfg"
             ],
             "searchDir": [],
             "runToEntryPoint": "main",
